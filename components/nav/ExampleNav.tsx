@@ -190,14 +190,14 @@ const ExampleNav: FC<Props> = ({ slug }) => {
 
             <div className="flex items-center gap-6 text-sm font-medium">
               {!!blogSlug && (
-                <a
-                  href={`${Pathname.Blog}/${blogSlug}`}
+                <Link
+                  href={`/${blogSlug}`}
                   target="_blank"
                   className="flex items-center gap-2 hover:opacity-50"
                 >
                   <Image src={articleIcon} alt="Article" className="size-6" />
                   Deep Dive
-                </a>
+                </Link>
               )}
               {!!youtubeUrl && (
                 <a

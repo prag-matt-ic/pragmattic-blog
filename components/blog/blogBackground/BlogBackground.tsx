@@ -55,6 +55,12 @@ const BlogBackgroundCanvas: FC = () => {
   );
 };
 
+declare module "@react-three/fiber" {
+  interface ThreeElements {
+    blogBackgroundShaderMaterial: ShaderMaterialProps & Partial<Uniforms>;
+  }
+}
+
 const BlogBackground: FC = () => {
   const material = useRef<ShaderMaterial & Partial<Uniforms>>(null);
 
@@ -73,11 +79,5 @@ const BlogBackground: FC = () => {
     </ScreenQuad>
   );
 };
-
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    blogBackgroundShaderMaterial: ShaderMaterialProps & Partial<Uniforms>;
-  }
-}
 
 export default BlogBackgroundCanvas;

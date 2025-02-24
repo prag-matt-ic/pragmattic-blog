@@ -1,12 +1,15 @@
-import React, { type FC, type PropsWithChildren } from 'react'
+import React, { type FC, type PropsWithChildren } from "react";
 
-import BlogHeadingsNav from './BlogHeadingsNav'
-import BlogPostHeader from '@/components/blog/BlogPostHeader'
-import { type BlogMetadata } from '@/resources/blog'
+import BlogHeadingsNav from "./BlogHeadingsNav";
+import BlogPostHeader from "@/components/blog/BlogPostHeader";
+import { type BlogMetadata } from "@/resources/blog";
 
-type Props = PropsWithChildren<BlogMetadata>
+type Props = PropsWithChildren<BlogMetadata>;
 
-const BlogLayout: FC<PropsWithChildren<Props>> = ({ children, ...metadata }) => {
+const BlogLayout: FC<PropsWithChildren<Props>> = ({
+  children,
+  ...metadata
+}) => {
   return (
     <>
       <JSONSchema {...metadata} />
@@ -23,41 +26,41 @@ const BlogLayout: FC<PropsWithChildren<Props>> = ({ children, ...metadata }) => 
         </div>
       </main>
     </>
-  )
-}
+  );
+};
 
 const JSONSchema: FC<BlogMetadata> = ({ title, description, date, slug }) => {
-  const url = `https://pragmattic.vercel.app/blog/${slug}`
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`;
   return (
     <script
       type="application/ld+json"
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BlogPosting',
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
           headline: title,
           datePublished: date,
           dateModified: date,
           description: description,
           mainEntityOfPage: url,
-          image: 'https://pragmattic.vercel.app/opengraph-image.jpg',
+          image: `${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.jpg`,
           // TODO: dynamically generated image with the blog title.
           // image: post.metadata.image
           //   ? `${baseUrl}${post.metadata.image}`
           //   : `/og?title=${encodeURIComponent(post.metadata.title)}`,
           url: url,
           author: {
-            '@type': 'Person',
-            givenName: 'Matthew',
-            name: 'Matthew Frawley',
-            brand: 'Pragmattic',
-            email: 'pragmattic.ltd@gmail.com',
+            "@type": "Person",
+            givenName: "Matthew",
+            name: "Matthew Frawley",
+            brand: "Pragmattic",
+            email: "pragmattic.ltd@gmail.com",
           },
         }),
       }}
     />
-  )
-}
+  );
+};
 
-export default BlogLayout
+export default BlogLayout;
