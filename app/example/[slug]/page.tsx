@@ -1,7 +1,6 @@
 import { type Metadata, type ResolvingMetadata } from "next";
 import React from "react";
 
-import ExampleLayout from "@/components/examples/ExampleLayout";
 import { EXAMPLES_CONTENT, EXAMPLES_METADATA } from "@/resources/examples";
 import { ExampleSlug } from "@/resources/pathname";
 
@@ -28,9 +27,5 @@ export async function generateMetadata(
 
 export default function ExamplePage({ params }: Props) {
   const Content = EXAMPLES_CONTENT[params.slug as ExampleSlug];
-  return (
-    <ExampleLayout {...EXAMPLES_METADATA[params.slug as ExampleSlug]}>
-      <Content />
-    </ExampleLayout>
-  );
+  return <Content />;
 }

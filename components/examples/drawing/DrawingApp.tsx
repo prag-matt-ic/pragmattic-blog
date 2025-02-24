@@ -65,21 +65,18 @@ const DrawingCanvas: FC = () => {
     }
   };
   return (
-    <>
-      <Canvas
-        frameloop="always"
-        gl={{
-          alpha: false,
-          localClippingEnabled: true,
-          preserveDrawingBuffer: true,
-          powerPreference: "high-performance",
-        }}
-      >
-        <OrthographicCamera makeDefault={true} position={[0, 0, 1]} />
-        <Drawing version={version} />
-      </Canvas>
-      <Leva titleBar={{ position: { x: -8, y: 64 } }} />
-    </>
+    <Canvas
+      frameloop="always"
+      gl={{
+        alpha: false,
+        localClippingEnabled: true,
+        preserveDrawingBuffer: true,
+        powerPreference: "high-performance",
+      }}
+    >
+      <OrthographicCamera makeDefault={true} position={[0, 0, 1]} />
+      <Drawing version={version} />
+    </Canvas>
   );
 };
 

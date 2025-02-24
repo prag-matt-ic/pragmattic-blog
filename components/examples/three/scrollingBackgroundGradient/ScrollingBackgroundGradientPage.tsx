@@ -1,6 +1,5 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { Leva } from "leva";
 import React from "react";
 
 import ScrollDownArrow from "@/components/examples/ScrollDown";
@@ -30,7 +29,6 @@ export default function ScrollingBackgroundShaderPage() {
       </Canvas>
 
       <ScrollDownArrow />
-      <Leva titleBar={{ position: { x: -8, y: 64 } }} />
     </main>
   );
 }

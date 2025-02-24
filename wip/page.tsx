@@ -21,9 +21,6 @@ export default function PlayPage() {
         <OrbitControls />
         <Stats />
       </Canvas>
-
-      {/* Controls */}
-      <Leva titleBar={{ position: { x: -8, y: 64 } }} />
     </main>
   );
 }
