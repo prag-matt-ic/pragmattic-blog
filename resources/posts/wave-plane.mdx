@@ -507,7 +507,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 Let's create a ref for storing the scrollProgress, and update it inside the [useGSAP hook](https://gsap.com/resources/react-basics/) via a ScrollTrigger.
 
-If you revisit the [live demo](/examples/wave-plane) you can scroll til your heart's content. Literally, forever! That's because I've also added an infinite scroll loop inside the ScrollTrigger.
+If you revisit the [live demo](/example/three-wave-plane) you can scroll til your heart's content. Literally, forever! That's because I've also added an infinite scroll loop inside the ScrollTrigger.
 
 ```tsx title="WavePlane.tsx"
   const scrollProgress = useRef(0) // value between 0 and 1 representing the window scroll progress
@@ -565,9 +565,9 @@ This will give the impression of the plane moving as we scroll.
 - Now in the fragment shader we can add uScrollProgress to the linePosY calculation. This moves the lines up and down as the scroll progress changes.
 
 
-### [Open the Final Result ↗](/examples/wave-plane)
+### [Open the Final Result ↗](/example/three-wave-plane)
 
-You can [explore the full code here](https://github.com/prag-matt-ic/pragmattic/tree/main/src/components/examples/wavePlane) which includes the controls implementation, and pointer based camera movement.
+You can [explore the full code here](https://github.com/prag-matt-ic/pragmattic-blog/tree/main/components/examples/three/wavePlane) which includes the controls implementation, and pointer based camera movement.
 
 <section className='w-full relative h-[704px] max-h-[70vh]'>
   <WavePlaneCanvas  />
