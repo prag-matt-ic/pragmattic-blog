@@ -3,6 +3,7 @@ import { offset, useFloating, useInteractions } from "@floating-ui/react";
 import { useDismiss } from "@floating-ui/react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Leva } from "leva";
 import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, type FC, type SetStateAction, useState } from "react";
@@ -87,6 +88,10 @@ const ExampleInfo: FC<Props> = ({ exampleSlug }) => {
 
   return (
     <>
+      {/* Positions the Leva controls if used */}
+      <Leva titleBar={{ position: { x: -8, y: 64 } }} />
+
+      {/* Button for expanding info */}
       <button
         {...getReferenceProps()}
         ref={refs.setReference}
