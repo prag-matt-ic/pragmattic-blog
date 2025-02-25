@@ -4,14 +4,15 @@ import AnimatedGridPage from "@/components/examples/animatedCSSGrid/AnimatedGrid
 import MarqueePage from "@/components/examples/animatedMarquee/MarqueePage";
 import ImageSequencePage from "@/components/examples/imageSequence/ImageSequenceHeader";
 import RayMarchingPage from "@/components/examples/raymarching/RayMarchingPage";
-import ScrollingBackgroundShaderPage from "@/components/examples/three/scrollingBackgroundGradient/ScrollingBackgroundGradientPage";
 import EnergyTransferCanvas from "@/components/examples/three/energyTransfer/EnergyTransfer";
 import FBOEffectsCanvas from "@/components/examples/three/fboEffectShader/FBOEffects";
 import LoopPointsCanvas from "@/components/examples/three/loopPoints/LoopPointsCanvas";
 import StarWarsPage from "@/components/examples/three/particles/stars/StarWarsPage";
+import ScrollingBackgroundShaderPage from "@/components/examples/three/scrollingBackgroundGradient/ScrollingBackgroundGradientPage";
 import ScrollingScenePage from "@/components/examples/three/scrollingScene/ScrollingScenePage";
 import { WavePlanePage } from "@/components/examples/three/wavePlane/WavePlane";
 import { BlogSlug, ExampleSlug } from "@/resources/pathname";
+
 import { TagName } from "./tags";
 
 export enum RebuildPathname {

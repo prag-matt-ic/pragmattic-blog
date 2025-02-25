@@ -1,9 +1,10 @@
+import { redirect } from "next/navigation";
 import { FC, type ReactNode } from "react";
 
-import Nav from "@/components/nav/Nav";
-import { ExampleSlug } from "@/resources/pathname";
-import { Example, EXAMPLES_METADATA } from "@/resources/examples";
 import ExampleInfo from "@/components/nav/ExampleInfo";
+import Nav from "@/components/nav/Nav";
+import { Example, EXAMPLES_METADATA } from "@/resources/examples";
+import { ExampleSlug } from "@/resources/pathname";
 
 export default async function ExampleLayout({
   children,
@@ -13,7 +14,10 @@ export default async function ExampleLayout({
   params: Promise<{ slug: string }>;
 }) {
   const slug = (await params).slug as ExampleSlug;
-  const example = EXAMPLES_METADATA[slug];
+  if (!slug || !Object.values(ExampleSlug).includes(slug as ExampleSlug))
+    redirect("/");
+
+  const example = EXAMPLES_METADATA[slug as ExampleSlug];
   return (
     <>
       <Nav exampleSlug={slug} />

@@ -1,5 +1,5 @@
 "use client";
-import { offset, useFloating, useInteractions } from "@floating-ui/react";
+import { offset, size, useFloating, useInteractions } from "@floating-ui/react";
 import { useDismiss } from "@floating-ui/react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -9,15 +9,15 @@ import { Dispatch, type FC, type SetStateAction, useState } from "react";
 import { Transition } from "react-transition-group";
 import { twJoin } from "tailwind-merge";
 
+import logo from "@/assets/brand/pragmattic.svg";
 import dropDownIcon from "@/assets/icons/drop-down-white.svg";
 import forwardSlashIcon from "@/assets/icons/forward-slash-light.svg";
 import githubIcon from "@/assets/icons/socials/github.svg";
 import youtubeIcon from "@/assets/icons/socials/youtube.svg";
 import Tag from "@/components/Tag";
+import { BLOG_METADATA } from "@/resources/blog";
 import { EXAMPLES_METADATA } from "@/resources/examples";
 import { BlogSlug, ExampleSlug, Pathname } from "@/resources/pathname";
-import { BLOG_METADATA } from "@/resources/blog";
-import logo from "@/assets/brand/pragmattic.svg";
 
 gsap.registerPlugin(useGSAP);
 
@@ -37,8 +37,16 @@ const Nav: FC<Props> = ({ exampleSlug, blogSlug }) => {
     onOpenChange: setIsMenuOpen,
     middleware: [
       offset({
-        mainAxis: 4,
+        mainAxis: 24,
         crossAxis: -16,
+      }),
+      size({
+        padding: 16,
+        apply({ rects, elements, availableHeight }) {
+          Object.assign(elements.floating.style, {
+            maxHeight: `${availableHeight}px`,
+          });
+        },
       }),
     ],
   });
@@ -67,7 +75,6 @@ const Nav: FC<Props> = ({ exampleSlug, blogSlug }) => {
     });
   };
 
-  // Extract the metadata
   const current = !!blogSlug
     ? BLOG_METADATA[blogSlug]
     : !!exampleSlug
@@ -76,7 +83,7 @@ const Nav: FC<Props> = ({ exampleSlug, blogSlug }) => {
 
   return (
     <>
-      <nav className="fixed left-0 right-0 top-0 z-[1000] text-white bg-black py-4 items-center flex gap-6 horizontal-padding">
+      <nav className="fixed left-0 right-0 top-0 shadow-xl z-[1000] text-white bg-black py-4 items-center flex gap-6 horizontal-padding">
         <Link
           href="https://pragmattic.dev"
           target="_blank"
@@ -127,7 +134,7 @@ const Nav: FC<Props> = ({ exampleSlug, blogSlug }) => {
           ref={refs.setFloating}
           {...getFloatingProps()}
           style={floatingStyles}
-          className="fixed opacity-0 left-0 top-0 z-[1001] max-w-[calc(100%-16px)] overflow-hidden rounded border border-mid bg-black/80 shadow-xl backdrop-blur-md lg:max-w-xl xl:max-w-2xl"
+          className="fixed opacity-0 sleek-scrollbar overflow-y-auto left-0 top-0 z-[1001] max-w-[calc(100%-16px)] overflow-hidden rounded border border-mid bg-black/80 shadow-xl backdrop-blur-md lg:max-w-xl xl:max-w-2xl"
         >
           <ExamplesPicker
             blogSlug={blogSlug}

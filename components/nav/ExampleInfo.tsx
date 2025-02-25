@@ -125,7 +125,7 @@ const ExampleInfo: FC<Props> = ({ exampleSlug }) => {
             </div>
           )}
 
-          <div className="flex items-center gap-6 text-sm font-medium">
+          <div className="text-white flex items-center gap-6 text-sm font-medium">
             {!!blogSlug && (
               <Link
                 href={`/${blogSlug}`}

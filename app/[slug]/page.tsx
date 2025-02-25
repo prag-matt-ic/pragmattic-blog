@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+
 import { BLOG_CONTENT, BLOG_METADATA } from "@/resources/blog";
 import { BlogSlug } from "@/resources/pathname";
 
@@ -19,7 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function BlogPage({ params }: Props) {
-  const Content = BLOG_CONTENT[params.slug as BlogSlug];
+export default async function BlogPage({ params }: Props) {
+  const slug = params.slug;
+  const Content = BLOG_CONTENT[slug as BlogSlug];
+  if (!Content) return null;
   return <Content />;
 }

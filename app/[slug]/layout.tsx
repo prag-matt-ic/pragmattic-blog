@@ -1,12 +1,14 @@
-import BlogPostHeader from "@/components/blog/BlogPostHeader";
 import "./code.css";
 
+import { redirect } from "next/navigation";
+import { type FC } from "react";
+
 import BlogBackgroundCanvas from "@/components/blog/blogBackground/BlogBackground";
+import BlogHeadingsNav from "@/components/blog/BlogHeadingsNav";
+import BlogPostHeader from "@/components/blog/BlogPostHeader";
 import Nav from "@/components/nav/Nav";
 import { BLOG_METADATA, BlogMetadata } from "@/resources/blog";
 import { BlogSlug } from "@/resources/pathname";
-import { FC } from "react";
-import BlogHeadingsNav from "@/components/blog/BlogHeadingsNav";
 
 export default async function BlogLayout({
   children,
@@ -16,6 +18,9 @@ export default async function BlogLayout({
   children: React.ReactNode;
 }) {
   const slug = (await params).slug as BlogSlug;
+  if (!slug || !Object.values(BlogSlug).includes(slug as BlogSlug))
+    redirect("/");
+
   const metadata = BLOG_METADATA[slug];
   if (!metadata) return null;
   return (
@@ -41,6 +46,7 @@ export default async function BlogLayout({
   );
 }
 
+// TODO: merge into shared component
 const JSONSchema: FC<BlogMetadata> = ({ title, description, date, slug }) => {
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`;
   return (
@@ -58,9 +64,6 @@ const JSONSchema: FC<BlogMetadata> = ({ title, description, date, slug }) => {
           mainEntityOfPage: url,
           image: `${process.env.NEXT_PUBLIC_BASE_URL}/opengraph-image.jpg`,
           // TODO: dynamically generated image with the blog title.
-          // image: post.metadata.image
-          //   ? `${baseUrl}${post.metadata.image}`
-          //   : `/og?title=${encodeURIComponent(post.metadata.title)}`,
           url: url,
           author: {
             "@type": "Person",

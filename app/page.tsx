@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import Link from "next/link";
 import React, { type FC, type PropsWithChildren, type ReactNode } from "react";
 
-import BlogBackgroundCanvas from "../components/blog/blogBackground/BlogBackground";
+import BlogBackgroundCanvas from "@/components/blog/blogBackground/BlogBackground";
 import { ScrollBackgroundGradientCanvas } from "@/components/examples/three/scrollingBackgroundGradient/ScrollingBackgroundGradient";
 import { GridLinesFragmentShaderPlaneCanvas } from "@/components/examples/three/wavePlane/blog/WavePlaneBlog";
 import { BLOG_METADATA } from "@/resources/blog";

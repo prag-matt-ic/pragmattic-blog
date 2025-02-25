@@ -26,6 +26,8 @@ export async function generateMetadata(
 }
 
 export default function ExamplePage({ params }: Props) {
-  const Content = EXAMPLES_CONTENT[params.slug as ExampleSlug];
+  const slug = params.slug;
+  const Content = EXAMPLES_CONTENT[slug as ExampleSlug];
+  if (!Content) return null;
   return <Content />;
 }
