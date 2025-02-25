@@ -1,10 +1,10 @@
-'use client'
-import { ContextMode } from 'glsl-canvas-js/dist/esm/context/context'
-import { Canvas, type ICanvasOptions } from 'glsl-canvas-js/dist/esm/glsl'
-import { type FC, useLayoutEffect, useRef } from 'react'
-import React from 'react'
+"use client";
+import { ContextMode } from "glsl-canvas-js/dist/esm/context/context";
+import { Canvas, type ICanvasOptions } from "glsl-canvas-js/dist/esm/glsl";
+import { type FC, useLayoutEffect, useRef } from "react";
+import React from "react";
 
-const glsl = (x: any) => x
+const glsl = (x: any) => x;
 
 const vertexShader = glsl`
   attribute vec4 a_position;
@@ -15,7 +15,7 @@ const vertexShader = glsl`
     v_uv = a_position.xy;
     gl_Position = a_position;
   }
-`
+`;
 
 const fragmentShader = glsl`
     #ifdef GL_ES
@@ -89,14 +89,14 @@ const fragmentShader = glsl`
 
         gl_FragColor = finalColor;
     }
-`
+`;
 
 // TODO: make generic and reusable
 const StripeCanvas: FC = () => {
-  const canvas = useRef<HTMLCanvasElement>(null)
+  const canvas = useRef<HTMLCanvasElement>(null);
 
   useLayoutEffect(() => {
-    if (!canvas.current) return
+    if (!canvas.current) return;
     // https://actarian.github.io/glsl-canvas/api/
     const options: ICanvasOptions = {
       vertexString: vertexShader,
@@ -105,9 +105,9 @@ const StripeCanvas: FC = () => {
       depth: false,
       antialias: true,
       mode: ContextMode.Flat,
-    }
-    const glsl = new Canvas(canvas.current, options)
-  }, [canvas])
+    };
+    const glsl = new Canvas(canvas.current, options);
+  }, [canvas]);
 
   return (
     <canvas
@@ -115,9 +115,9 @@ const StripeCanvas: FC = () => {
       width={1200}
       height={640}
       className="absolute left-0 right-0 top-0 h-[640px] w-full overflow-hidden"
-      style={{ transform: 'translateY(-33%) skewY(-12deg)' }}
+      style={{ transform: "translateY(-33%) skewY(-12deg)" }}
     />
-  )
-}
+  );
+};
 
-export default StripeCanvas
+export default StripeCanvas;
