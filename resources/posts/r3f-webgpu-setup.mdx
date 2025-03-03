@@ -80,7 +80,7 @@ export default WebGPUCanvas;
 
 ## 3. WebGPU shader code using TSL/Node Material
 
-Three have been busy working on Node materials - which enable us to easily extend default materials with custom shader logic... all inside our JavaScript/TypeScript!
+Three have been busy working on [Three Shading Language (TSL)](https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language) and Node materials - which enable us to easily extend default materials with custom shader logic... all inside our JavaScript/TypeScript!
 If you've extended a shader before, you'll know it's a fairly clunky process to inject GLSL code into another GLSL shader string at the right position.
 
 <Aside>
@@ -115,8 +115,8 @@ export const InteractiveSphere: FC = () => {
     const uHovered = uniform(0.0);
 
     // Create color gradients on the Y axis (bottom to top of the sphere)
-    const defaultColor = mix(color("#3F4A4B"), color("#1A2526"), uv().y.abs());
-    const hoverColor = mix(color("#14DCE9"), color("#B462D1"), uv().y.abs());
+    const defaultColor = mix(color("#3F4A4B"), color("#1A2526"), uv().y);
+    const hoverColor = mix(color("#14DCE9"), color("#B462D1"), uv().y);
 
     // Mix between two default and hovered colors based on the hover value
     const colorNode = mix(defaultColor, hoverColor, uHovered);
