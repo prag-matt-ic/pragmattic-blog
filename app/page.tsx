@@ -6,9 +6,9 @@ import React, { type FC, type PropsWithChildren, type ReactNode } from "react";
 import BlogBackgroundCanvas from "@/components/blog/blogBackground/BlogBackground";
 import { ScrollBackgroundGradientCanvas } from "@/components/examples/three/scrollingBackgroundGradient/ScrollingBackgroundGradient";
 import { GridLinesFragmentShaderPlaneCanvas } from "@/components/examples/three/wavePlane/blog/WavePlaneBlog";
+import Nav from "@/components/nav/Nav";
 import { BLOG_METADATA } from "@/resources/blog";
 import { BlogSlug } from "@/resources/pathname";
-import Nav from "@/components/nav/Nav";
 
 export const metadata: Metadata = {
   title: "Blog by Matthew Frawley",
@@ -38,7 +38,9 @@ const BLOG_CARD_COMPONENTS: Record<BlogSlug, ReactNode> = {
   [BlogSlug.ImageSequenceHeader]: (
     <Video src="/blog/videos/scroll-driven-image-sequence.mp4" />
   ),
+  // TODO: add videos for these.
   [BlogSlug.AnimatedCSSGrid]: null,
+  [BlogSlug.ReactThreeFiberWebGPUTypescript]: null,
 };
 
 export default function BlogPage() {

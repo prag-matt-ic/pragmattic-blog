@@ -1,35 +1,39 @@
-import { type FC } from 'react'
+import { type FC } from "react";
 
-import { TagName } from '@/resources/tags'
-import { BlogSlug, ExampleSlug } from '@/resources/pathname'
-import AnimatedCSSGrid from './posts/animated-css-grid.mdx'
-import ImageSequence from './posts/image-sequence.mdx'
-import NextJsShaderSetup from './posts/next-shaders.mdx'
-import WavePlane from './posts/wave-plane.mdx'
+import { BlogSlug, ExampleSlug } from "@/resources/pathname";
+import { TagName } from "@/resources/tags";
+
+import AnimatedCSSGrid from "./posts/animated-css-grid.mdx";
+import ImageSequence from "./posts/image-sequence.mdx";
+import NextJsShaderSetup from "./posts/next-shaders.mdx";
+import ReactThreeFiberWebGPUTypescript from "./posts/r3f-webgpu-setup.mdx";
+import WavePlane from "./posts/wave-plane.mdx";
 
 export type BlogMetadata = {
-  title: string
-  description: string
-  date: string
-  slug: string
-  tags: string[]
-  exampleSlug?: ExampleSlug
-  isDraft?: boolean
-}
+  title: string;
+  description: string;
+  date: string;
+  slug: string;
+  tags: string[];
+  exampleSlug?: ExampleSlug;
+  isDraft?: boolean;
+};
 
 export const BLOG_CONTENT: Record<BlogSlug, FC> = {
   [BlogSlug.WavePlane]: WavePlane,
   [BlogSlug.NextJsShaderSetup]: NextJsShaderSetup,
   [BlogSlug.ImageSequenceHeader]: ImageSequence,
   [BlogSlug.AnimatedCSSGrid]: AnimatedCSSGrid,
-}
+  [BlogSlug.ReactThreeFiberWebGPUTypescript]: ReactThreeFiberWebGPUTypescript,
+};
 
 export const BLOG_METADATA: Record<BlogSlug, BlogMetadata> = {
   [BlogSlug.WavePlane]: {
-    title: 'Build an animated wave plane in Next.js (Typescript) with React Three Fiber and custom shader material',
+    title:
+      "Build an animated wave plane in Next.js (Typescript) with React Three Fiber and custom shader material",
     description:
-      'This simple project is a great way to learn about ThreeJS shaders and how to use them in a React Typescript environment.',
-    date: '2025-01-12',
+      "This simple project is a great way to learn about ThreeJS shaders and how to use them in a React Typescript environment.",
+    date: "2025-01-12",
     slug: BlogSlug.WavePlane,
     exampleSlug: ExampleSlug.WavePlane,
     tags: [
@@ -39,34 +43,65 @@ export const BLOG_METADATA: Record<BlogSlug, BlogMetadata> = {
       TagName.Typescript,
       TagName.VertexShader,
       TagName.FragmentShader,
-      'noise',
+      "noise",
     ],
   },
   [BlogSlug.NextJsShaderSetup]: {
-    title: 'Configure your Next.js Typescript project for custom shader materials and glsify in React Three Fiber',
+    title:
+      "Configure your Next.js Typescript project for custom shader materials and glsify in React Three Fiber",
     description:
-      'Step-by-step guidance on packages, config and code. Get custom React Three Fiber shader materials with glslify working in your Next.js Typescript project.',
-    date: '2025-01-12',
+      "Step-by-step guidance on packages, config and code. Get custom React Three Fiber shader materials with glslify working in your Next.js Typescript project.",
+    date: "2025-01-12",
     exampleSlug: ExampleSlug.ScrollingBackgroundShader,
     slug: BlogSlug.NextJsShaderSetup,
-    tags: [TagName.Tutorial, TagName.NextJS, TagName.ThreeJS, TagName.Typescript, 'glslify', 'custom shader material'],
+    tags: [
+      TagName.Tutorial,
+      TagName.NextJS,
+      TagName.ThreeJS,
+      TagName.Typescript,
+      "glslify",
+      "custom shader material",
+    ],
   },
   [BlogSlug.ImageSequenceHeader]: {
-    title: 'Scroll-driven image sequence header in React with GSAP',
-    description: 'A guide to creating a scroll-driven image sequence header in React/Next.js with GSAP',
-    date: '2025-01-16',
+    title: "Scroll-driven image sequence header in React with GSAP",
+    description:
+      "A guide to creating a scroll-driven image sequence header in React/Next.js with GSAP",
+    date: "2025-01-16",
     exampleSlug: ExampleSlug.ImageSequence,
     slug: BlogSlug.ImageSequenceHeader,
-    tags: [TagName.Tutorial, TagName.NextJS, TagName.Typescript, 'canvas', TagName.GSAP],
+    tags: [
+      TagName.Tutorial,
+      TagName.NextJS,
+      TagName.Typescript,
+      "canvas",
+      TagName.GSAP,
+    ],
   },
   [BlogSlug.AnimatedCSSGrid]: {
-    title: 'Animated CSS Grid in Next.js: A Step-by-Step Tailwind and GSAP Tutorial',
+    title:
+      "Animated CSS Grid in Next.js: A Step-by-Step Tailwind and GSAP Tutorial",
     description:
-      'A guide to mapping data into a responsive grid, animating it for desktop and mobile, and making it reusable.',
-    date: '2025-02-04',
+      "A guide to mapping data into a responsive grid, animating it for desktop and mobile, and making it reusable.",
+    date: "2025-02-04",
     exampleSlug: ExampleSlug.AnimatedCSSGrid,
     slug: BlogSlug.AnimatedCSSGrid,
     tags: [TagName.Tutorial, TagName.React, TagName.GSAP, TagName.Tailwind],
+  },
+  [BlogSlug.ReactThreeFiberWebGPUTypescript]: {
+    title:
+      "React Three Fiber with WebGPU and Three Shading Language (TSL) Node Material",
+    description:
+      "A short guide to getting started with the WebGPU Renderer and utilising the power of Three Node Materials",
+    date: "2025-03-02",
+    slug: BlogSlug.ReactThreeFiberWebGPUTypescript,
+    tags: [
+      TagName.Tutorial,
+      TagName.React,
+      TagName.ThreeJS,
+      TagName.Typescript,
+      TagName.WebGPU,
+    ],
   },
   // [BlogSlug.ScatteredMeshPoints]: {
   //   title: 'Scattered Mesh Points in React Three Fiber: A Step-by-Step Guide',
@@ -83,4 +118,4 @@ export const BLOG_METADATA: Record<BlogSlug, BlogMetadata> = {
   //   slug: BlogSlug.AppDevelopmentGuide,
   //   tags: [TagName.Startups, TagName.ProductDevelopment],
   // },
-}
+};

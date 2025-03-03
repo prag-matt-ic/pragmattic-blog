@@ -17,7 +17,7 @@ const LoopPointsCanvas: FC = () => {
     <main className="h-lvh w-full font-sans">
       <Canvas
         flat={true}
-        camera={{ position: [0, 0, 3], fov: 70, far: 10, near: 0.01 }}
+        camera={{ position: [0, 0, 3], fov: 70, far: 8, near: 0.01 }}
         gl={{
           alpha: false,
           antialias: false,
@@ -28,9 +28,13 @@ const LoopPointsCanvas: FC = () => {
       >
         <PerformanceMonitor>
           <LoopModel ref={loopMesh} />
-          <LoopPoints loopMesh={loopMesh} isScattered={isScattered} />
+          <LoopPoints mesh={loopMesh} isScattered={isScattered} />
         </PerformanceMonitor>
-        <OrbitControls autoRotate={true} autoRotateSpeed={4} />
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={4}
+          enableZoom={false}
+        />
         {process.env.NODE_ENV === "development" && <Stats />}
       </Canvas>
 

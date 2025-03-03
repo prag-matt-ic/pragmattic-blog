@@ -62,10 +62,10 @@ vec3 curlNoise(in vec3 p ){
 
 // Main fragment shader function.
 void main() {
-  // Retrieve the particle's scattered position from a texture using its UV coordinates.
+  // Sample the scattered and loop positions from the textures.
   vec3 scatteredPos = texture2D(uScatteredPositions, vUv).xyz;
-  // Retrieve the particle's looped (base) position from another texture.
   vec3 loopPos = texture2D(uLoopPositions, vUv).xyz;
+
   // Blend the two positions based on uScatteredAmount.
   // When uScatteredAmount is 0, loopPos is used; when it's 1, scatteredPos is used.
   vec3 pos = mix(loopPos, scatteredPos, uScatteredAmount);
@@ -78,7 +78,7 @@ void main() {
   // The multiplier (0.2) controls the strength of the noise effect.
   pos += noiseVec * 0.2;
   
-  // Output the final position as the fragment color.
-  // The alpha component is set to 1.0 (fully opaque).
+  // Output the final position as the fragment color
+  // The alpha component is unused
   gl_FragColor = vec4(pos, 1.0);
 }

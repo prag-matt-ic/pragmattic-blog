@@ -1,0 +1,174 @@
+## 1. Why WebGPU?
+
+**WebGPU is coming to a browser near you soon!** In fact, we're only really waiting for Safari to catch up. At which point it will become the standard for 3D graphics on the web.
+I believe it's important we stay ahead of the curve, which is why I'm diving into this now, despite it's experimental status.
+
+<Aside title='Benefits of WebGPU'>
+- Web GPU offers `compute shaders` which will allow us to more easily implement complex shaders and simulations in the future.
+- WebGPU allows for larger and more flexible storage buffers compared to WebGL.
+- Many have found that it can outperform WebGL performance wise (although we are of course still limited by the power of the device's GPU.)
+
+For more info see the Google article [From WebGL to WebGPU](https://developer.chrome.com/blog/from-webgl-to-webgpu).
+</Aside>
+
+## 1. Install Dependencies
+I'm using Next.js 15.2 along with the latest version of React Three Fiber (v9).
+
+```bash
+npm install three @types/three @react-three/fiber @react-three/drei
+```
+
+## 2. Setup the Canvas Component
+
+At the time of writing (March 2025) we need to `extend` the `three/webgpu` module to get it to work correctly with React Three Fiber.
+
+You can check out the R3F documentation here: [WebGPU](https://r3f.docs.pmnd.rs/tutorials/v9-migration-guide#webgpu)
+
+We'll use the `WebGPU` capabilities utility to check if the browser supports the new WebGPU renderer. 
+If it's not supported, we'll fallback to the WebGLRenderer.
+
+_Note that the `gl` function is async to support the WebGPU initialization._
+
+
+```tsx {11-13, 16, 24-36} showLineNumbers
+"use client";
+import { OrbitControls, Stats } from "@react-three/drei";
+import { Canvas, extend, type ThreeToJSXElements } from "@react-three/fiber";
+
+import React, { type FC, type PropsWithChildren } from "react";
+import { WebGLRenderer } from "three";
+import WebGPU from "three/examples/jsm/capabilities/WebGPU.js";
+import { type WebGPURendererParameters } from "three/src/renderers/webgpu/WebGPURenderer.js";
+import * as THREE from "three/webgpu";
+
+declare module "@react-three/fiber" {
+  interface ThreeElements extends ThreeToJSXElements<typeof THREE> {}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+extend(THREE as any);
+
+const WebGPUCanvas: FC = () => {
+  return (
+    <Canvas
+      className="!fixed inset-0"
+      performance={{ min: 0.5, debounce: 300 }}
+      camera={{ position: [0, 0, 5], far: 20 }}
+      gl={async (props) => {
+        if (WebGPU.isAvailable()) {
+          console.warn("WebGPU is supported");
+          const renderer = new THREE.WebGPURenderer(
+            props as WebGPURendererParameters
+          );
+          await renderer.init();
+          return renderer;
+        } else {
+          console.warn("WebGPU is not supported");
+          return new WebGLRenderer(props);
+        }
+      }}
+    >
+      {/* Your components here */}
+      <OrbitControls />
+      {process.env.NODE_ENV === "development" && <Stats />}
+    </Canvas>
+  );
+};
+
+export default WebGPUCanvas;
+```
+
+## 3. WebGPU shader code using TSL/Node Material
+
+Three have been busy working on Node materials - which enable us to easily extend default materials with custom shader logic... all inside our JavaScript/TypeScript!
+If you've extended a shader before, you'll know it's a fairly clunky process to inject GLSL code into another GLSL shader string.
+
+This is where TSL shines:
+- It abstracts away the complexity of extending shaders
+- GLSL code won't run on WebGPU, but TSL is renderer agnostic - meaning it's output is compatible with both WebGL and WebGPU. 
+- It makes it easier to offload computations to the GPU for better performance
+- It's easier for JS developers to understand and work with
+
+In the following code, you'll see how we are able to utilise the base capabilities of the `meshPhongNodeMaterial` (lighting, shadows, etc) whilst overriding the color node with custom gradients.
+
+You'll also notice that the position transformation is done in the vertex shader, when we subtract a vec3(x,y,z) to the original world position of the sphere.
+
+What is trivial here was previously quite tedious with GLSL shader materials.
+
+```tsx title="SimpleSphere.tsx" showLineNumbers
+"use client";
+import { Sphere } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import React, { type FC, useMemo, useState } from "react";
+import { MathUtils } from "three";
+import { color, mix, uv, positionWorld, uniform, vec3 } from "three/tsl";
+
+export const SimpleSphere: FC = () => {
+  const [isPointerOver, setIsPointerOver] = useState(false);
+
+  const { key, colorNode, positionNode, uHovered } = useMemo(() => {
+    // Define a uniform for the hover value
+    const uHovered = uniform(0.0);
+
+    // Create color gradients on the Y axis (bottom to top of the sphere)
+    const defaultColor = mix(color("#3F4A4B"), color("#1A2526"), uv().y.abs());
+    const hoverColor = mix(color("#14DCE9"), color("#B462D1"), uv().y.abs());
+
+    // Mix between two default and hovered colors based on the hover value
+    const colorNode = mix(defaultColor, hoverColor, uHovered);
+
+    // Translate the sphere back on the Z axis based on the hover value (0 - 1)
+    const positionNode = positionWorld.sub(vec3(0, 0, uHovered));
+
+    // Generate a key for the material so that it updates when this data changes
+    // (it won't in this scenario because useMemo has no dependencies)
+    const key = colorNode.uuid;
+    return { key, colorNode, positionNode, uHovered };
+  }, []);
+
+  // When hovered, smoothly transition to 1.0, otherwise back to 0.0
+  useFrame((_, delta) => {
+    uHovered.value = MathUtils.damp(
+      uHovered.value,
+      isPointerOver ? 1.0 : 0.0,
+      5,
+      delta
+    );
+  });
+
+  return (
+    <Sphere
+      position={[0, 0, 0]}
+      args={[1, 40, 40]}
+      onPointerEnter={() => setIsPointerOver(true)}
+      onPointerLeave={() => setIsPointerOver(false)}
+    >
+      {/* We're using the Phong Node material for built-in lighting/shadows/shininess */}
+      <meshPhongNodeMaterial
+        key={key}
+        colorNode={colorNode}
+        positionNode={positionNode}
+        shininess={20}
+      />
+    </Sphere>
+  );
+};
+```
+
+### Code Breakdown
+- The code within the `useMemo` runs once and generates the shader code for the material
+- We're importing shader values/functions from `three/tsl`
+- We're applying a custom `colorNode` which smoothly transitions between two gradients based on the hovered value 
+- We're applying a `positionNode` that translates the sphere along the Z axis based on the hover value
+- The `uHovered` uniform is smoothly updated inside useFrame based on whether the pointer is over the sphere
+
+## Summary
+
+There isn't a great deal of documentation on the subject of TSL, especially inside R3F. 
+I plan to help contribute to the community by sharing examples and tutorials as I learn more about this promising new approach to 3D web.
+
+Show your support by subscribing to my [Youtube channel here](https://www.youtube.com/@pragmattic-dev) 👈
+
+Star the repo on [Github](https://github.com/prag-matt-ic/react-three-tsl-playground/tree/main) as I'll be expanding on the code throughout 2025.
+
+Happy Threedeeing! 🌍

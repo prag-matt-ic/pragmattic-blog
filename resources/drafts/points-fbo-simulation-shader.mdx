@@ -1,0 +1,24 @@
+## Creating a Particles Simulation with React Three Fiber and FBO
+
+In this post, we'll build a dynamic particles simulation in React using React Three Fiber, enhanced with an FBO (Frame Buffer Object) scene for off-screen rendering. We’ll cover everything from setting up your project and dependencies to diving deep into the simulation and particle shaders.
+
+
+## 1. Introduction
+Modern web animations often rely on WebGL and shader programming for smooth and visually compelling effects. 
+In our project, we use React Three Fiber to integrate Three.js with React. 
+By leveraging an FBO scene, we can simulate particles off-screen and then render the final image efficiently. 
+This guide walks through our setup and explains key parts of the code.
+
+## 2. Setting Up Your Environment
+Before diving into the code, ensure you have the following dependencies installed:
+
+React Three Fiber: The React renderer for Three.js.
+@react-three/drei: A helper library that provides useful abstractions, including the shaderMaterial and useFBO hooks.
+GSAP: For smooth animations.
+Three.js: Core library for 3D rendering.
+Install these packages via npm or yarn:
+
+{/* TODO: check the packages.. */}
+```bash
+npm install three @react-three/fiber @react-three/drei gsap
+```
