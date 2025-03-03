@@ -66,7 +66,7 @@ export const BLOG_METADATA: Record<BlogSlug, BlogMetadata> = {
   [BlogSlug.ImageSequenceHeader]: {
     title: "Scroll-driven image sequence header in React with GSAP",
     description:
-      "A guide to creating a scroll-driven image sequence header in React/Next.js with GSAP",
+      "A guide to creating a scroll-driven image sequence header in React/Next.js with GSAP.",
     date: "2025-01-16",
     exampleSlug: ExampleSlug.ImageSequence,
     slug: BlogSlug.ImageSequenceHeader,
@@ -92,7 +92,7 @@ export const BLOG_METADATA: Record<BlogSlug, BlogMetadata> = {
     title:
       "React Three Fiber with WebGPU and Three Shading Language (TSL) Node Material",
     description:
-      "A short guide to getting started with the WebGPU Renderer and utilising the power of Three Node Materials",
+      "A short guide to getting started with the WebGPU Renderer and beginning to utilise the power of Three Node Materials.",
     date: "2025-03-02",
     slug: BlogSlug.ReactThreeFiberWebGPUTypescript,
     tags: [

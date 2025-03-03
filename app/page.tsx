@@ -7,7 +7,7 @@ import BlogBackgroundCanvas from "@/components/blog/blogBackground/BlogBackgroun
 import { ScrollBackgroundGradientCanvas } from "@/components/examples/three/scrollingBackgroundGradient/ScrollingBackgroundGradient";
 import { GridLinesFragmentShaderPlaneCanvas } from "@/components/examples/three/wavePlane/blog/WavePlaneBlog";
 import Nav from "@/components/nav/Nav";
-import { BLOG_METADATA } from "@/resources/blog";
+import { BLOG_METADATA, type BlogMetadata } from "@/resources/blog";
 import { BlogSlug } from "@/resources/pathname";
 
 export const metadata: Metadata = {
@@ -43,6 +43,10 @@ const BLOG_CARD_COMPONENTS: Record<BlogSlug, ReactNode> = {
   [BlogSlug.ReactThreeFiberWebGPUTypescript]: null,
 };
 
+const sortByDate = (a: BlogMetadata, b: BlogMetadata) => {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+};
+
 export default function BlogPage() {
   return (
     <>
@@ -60,21 +64,23 @@ export default function BlogPage() {
         </header>
 
         <section className="w-full space-y-12 pb-24 horizontal-padding">
-          {Object.values(BLOG_METADATA).map((metadata) => {
-            const { slug, title, description, date, isDraft } = metadata;
-            if (!!isDraft) return null;
-            return (
-              <BlogPostCard
-                key={slug}
-                href={`/${slug}`}
-                heading={title}
-                description={description}
-                date={date}
-              >
-                {BLOG_CARD_COMPONENTS[slug as BlogSlug]}
-              </BlogPostCard>
-            );
-          })}
+          {Object.values(BLOG_METADATA)
+            .sort(sortByDate)
+            .map((metadata) => {
+              const { slug, title, description, date, isDraft } = metadata;
+              if (!!isDraft) return null;
+              return (
+                <BlogPostCard
+                  key={slug}
+                  href={`/${slug}`}
+                  heading={title}
+                  description={description}
+                  date={date}
+                >
+                  {BLOG_CARD_COMPONENTS[slug as BlogSlug]}
+                </BlogPostCard>
+              );
+            })}
         </section>
 
         {/* TODO: add links to examples */}
@@ -102,9 +108,11 @@ const BlogPostCard: FC<PropsWithChildren<CardProps>> = ({
       href={href}
       className="flex flex-col items-center gap-4 rounded-lg border-black bg-black/20 p-2 hover:bg-black/40 sm:flex-row sm:p-4 lg:gap-12"
     >
-      <div className="relative aspect-square w-full shrink-0 overflow-hidden rounded sm:size-96 sm:w-auto">
-        {children}
-      </div>
+      {!!children && (
+        <div className="relative aspect-square w-full shrink-0 overflow-hidden rounded sm:size-96 sm:w-auto">
+          {children}
+        </div>
+      )}
       <div className="max-w-xl space-y-3 p-3 sm:p-0">
         <span className="block text-xs text-light">
           {format(new Date(date), "MMM yyyy")}
