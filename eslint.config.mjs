@@ -14,13 +14,15 @@ const compat = new FlatCompat({
 });
 
 const config = [
-  ...compat.extends("next/core-web-vitals"),
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     plugins: {
       "simple-import-sort": simpleImportSort,
     },
 
     rules: {
+      "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "error",
       "no-console": [
