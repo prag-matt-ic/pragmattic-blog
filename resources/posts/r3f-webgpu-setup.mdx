@@ -95,7 +95,7 @@ You'll also notice that the position transformation is done in the vertex shader
 
 What is trivial here was previously quite tedious with GLSL shader materials.
 
-```tsx title="SimpleSphere.tsx" showLineNumbers
+```tsx title="InteractiveSphere.tsx" showLineNumbers
 "use client";
 import { Sphere } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -103,7 +103,9 @@ import React, { type FC, useMemo, useState } from "react";
 import { MathUtils } from "three";
 import { color, mix, uv, positionWorld, uniform, vec3 } from "three/tsl";
 
-export const SimpleSphere: FC = () => {
+// Basic component showing how to add smooth hover interactivity with TSL
+
+export const InteractiveSphere: FC = () => {
   const [isPointerOver, setIsPointerOver] = useState(false);
 
   const { key, colorNode, positionNode, uHovered } = useMemo(() => {
@@ -117,7 +119,7 @@ export const SimpleSphere: FC = () => {
     // Mix between two default and hovered colors based on the hover value
     const colorNode = mix(defaultColor, hoverColor, uHovered);
 
-    // Translate the sphere back on the Z axis based on the hover value (0 - 1)
+    // Translate the sphere along the Z axis based on the hover value (0 - 1)
     const positionNode = positionWorld.sub(vec3(0, 0, uHovered));
 
     // Generate a key for the material so that it updates when this data changes
@@ -140,8 +142,14 @@ export const SimpleSphere: FC = () => {
     <Sphere
       position={[0, 0, 0]}
       args={[1, 40, 40]}
-      onPointerEnter={() => setIsPointerOver(true)}
-      onPointerLeave={() => setIsPointerOver(false)}
+      onPointerEnter={() => {
+        document.body.style.cursor = "pointer";
+        setIsPointerOver(true);
+      }}
+      onPointerLeave={() => {
+        document.body.style.cursor = "auto";
+        setIsPointerOver(false);
+      }}
     >
       {/* We're using the Phong Node material for built-in lighting/shadows/shininess */}
       <meshPhongNodeMaterial
@@ -153,6 +161,7 @@ export const SimpleSphere: FC = () => {
     </Sphere>
   );
 };
+
 ```
 
 ### Code Breakdown
@@ -165,7 +174,7 @@ export const SimpleSphere: FC = () => {
 ## Summary
 
 There isn't a great deal of documentation on the subject of TSL, especially inside R3F. 
-I plan to help contribute to the community by sharing examples and tutorials as I learn more about this promising new approach to 3D web.
+I plan to help contribute to the community by sharing examples and tutorials as I learn more about this promising new approach to 3D web development.
 
 Show your support by subscribing to my [Youtube channel here](https://www.youtube.com/@pragmattic-dev) 👈
 
