@@ -81,13 +81,15 @@ export default WebGPUCanvas;
 ## 3. WebGPU shader code using TSL/Node Material
 
 Three have been busy working on Node materials - which enable us to easily extend default materials with custom shader logic... all inside our JavaScript/TypeScript!
-If you've extended a shader before, you'll know it's a fairly clunky process to inject GLSL code into another GLSL shader string.
+If you've extended a shader before, you'll know it's a fairly clunky process to inject GLSL code into another GLSL shader string at the right position.
 
+<Aside>
 This is where TSL shines:
-- It abstracts away the complexity of extending shaders
+- It removes the complexity of extending existing shaders
 - GLSL code won't run on WebGPU, but TSL is renderer agnostic - meaning it's output is compatible with both WebGL and WebGPU. 
 - It makes it easier to offload computations to the GPU for better performance
 - It's easier for JS developers to understand and work with
+</Aside>
 
 In the following code, you'll see how we are able to utilise the base capabilities of the `meshPhongNodeMaterial` (lighting, shadows, etc) whilst overriding the color node with custom gradients.
 
